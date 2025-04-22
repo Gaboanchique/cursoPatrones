@@ -1,0 +1,137 @@
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Holiday Crown | Best hotel in Dubai</title>
+
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="assets/uniform/css/uniform.default.min.css" />
+        <link rel="stylesheet" href="assets/wow/animate.css" />
+        <link rel="stylesheet" href="assets/gallery/blueimp-gallery.min.css">
+        <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+        <link rel="icon" href="images/favicon.png" type="image/x-icon">
+        <link rel="stylesheet" href="assets/style.css">
+        <link rel="stylesheet" href="assets/daterangepicker-master/daterangepicker.css">
+
+
+        <script src="assets/jquery.js"></script>
+        <script src="assets/wow/wow.min.js"></script>
+        <script src="assets/uniform/js/jquery.uniform.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+        <script src="assets/mobile/touchSwipe.min.js"></script>
+        <script src="assets/respond/respond.js"></script>
+        <script src="assets/gallery/jquery.blueimp-gallery.min.js"></script>
+        <script src="assets/script.js"></script>
+        <script src="js/utilidadesjQuery.js"></script>
+        <script type="text/javascript" src="assets/daterangepicker-master/moment.min.js"></script>
+        <script type="text/javascript" src="assets/daterangepicker-master/daterangepicker.js"></script>
+        <script type="text/javascript" src="js/funciones.js"></script>
+        <script type="text/javascript" src="js/Cliente_Builder.js"></script>
+        <style>
+            .container-deaca {
+                max-width: 600px;
+                margin: auto;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .result {
+                margin: 20px 0px;
+                padding: 10px;
+                border: 1px solid #ccc;
+            }
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+            input, select {
+                width: 100%;
+                padding: 8px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="header"> </div>
+        <div class="container-deaca">
+            <h1>Registro de Cliente</h1>
+            <div class="form-group" style="margin-top: 10px">
+                <label for="clientType">Tipo de cliente:</label>
+                <select id="clientType">
+                    <option value="estandar">Estándar</option>
+                    <option value="premium">Premium</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label>Preferencias de contacto:</label>
+                <input type="checkbox" id="phone" value="phone"> Incluir teléfono<br>
+                <input type="text" id="phoneNumber" placeholder="Número de teléfono" class="hidden">
+                <input type="checkbox" id="sms" value="sms"> Notificaciones por SMS
+                <br>
+                <input type="checkbox" id="emailNotifications" value="emailNotifications"> Notificaciones por correo
+            </div>
+            <div class="form-group" id="detalleFacturacion">
+                <label>Detalles de facturación:</label>
+                <input type="checkbox" id="billing" value="billing"> Incluir detalles de facturación<br>
+                <div id="billingDetails" class="hidden">
+                    <label for="billingAddress">Dirección de facturación:</label>
+                    <input type="text" id="billingAddress">
+                    <label for="paymentMethod">Método de pago:</label>
+                    <select id="paymentMethod">
+                        <option value="tarjeta">Tarjeta</option>
+                        <option value="efectivo">Efectivo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" id="preferenciasHospedaje">
+                <label>Preferencias de hospedaje:</label>
+                <input type="checkbox" id="lodging" value="lodging"> Incluir preferencias de hospedaje<br>
+                <div id="lodgingDetails" class="hidden">
+                    <label for="roomType">Tipo de habitación:</label>
+                    <select id="roomType">
+                        <option value="">-- seleccione --</option>
+                        <option value="estandar">Estándar</option>
+                        <option value="suite">Suite</option>
+                    </select>
+                    <label for="view">Vista:</label>
+                    <select id="view">
+                        <option value="">-- seleccione --</option>
+                        <option value="ciudad">Ciudad</option>
+                        <option value="mar">Mar</option>
+                    </select>
+                    <label for="floor">Piso:</label>
+                    <select id="floor">
+                        <option value="">-- seleccione --</option>
+                        <option value="bajo">Bajo</option>
+                        <option value="alto">Alto</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group hidden" id="membershipDetails">
+                <label for="membershipType">Tipo de membresía (Premium):</label>
+                <select id="membershipType">
+                    <option value="gold">Gold</option>
+                    <option value="platinum">Platinum</option>
+                </select>
+            </div>
+            <button class="btn btn-primary mb-3" id="registrar" >Registrar infromaci&oacute;n</button>
+            
+            <div id="result" class="result"></div>
+        </div>
+        <div class="spinner spinner-container hidden">
+            <img src="images/spinner.gif" alt="Loading...">
+            <div id="progresoDescarga" class="progreso-container hidden">
+            </div>
+        </div>
+        <div id="footer"> </div>
+    </body>
+</html>

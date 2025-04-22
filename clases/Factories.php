@@ -15,13 +15,13 @@ interface Pago {
 // Productos concretos para hotel económico
 class ReservaEconomica implements Reserva {
     public function detalles(): string {
-        return "Reserva en hotel económico: habitación estándar";
+        return "Habitación estándar, cama sencilla";
     }
 }
 
 class ServicioEconomico implements Servicio {
     public function descripcion(): string {
-        return "Servicio básico: desayuno incluido";
+        return "Servicio básico desayuno incluido";
     }
 }
 
@@ -34,13 +34,13 @@ class PagoEfectivo implements Pago {
 // Productos concretos para hotel de lujo
 class ReservaLujo implements Reserva {
     public function detalles(): string {
-        return "Reserva en hotel de lujo: suite con vista al mar";
+        return "Suite con vista al mar, cama Queen";
     }
 }
 
 class ServicioLujo implements Servicio {
     public function descripcion(): string {
-        return "Servicio premium: spa y cena gourmet";
+        return "Servicio premium spa y cena gourmet";
     }
 }
 

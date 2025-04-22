@@ -8,6 +8,9 @@ class Cliente {
     public $emailNotifications;
     public $billingAddress;
     public $paymentMethod;
+    public $roomType;
+    public $view;
+    public $floor;
     public $membershipType;
     public $membershipBenefits;
 
@@ -22,6 +25,10 @@ class Cliente {
             ? "Dirección: $this->billingAddress, Método: $this->paymentMethod"
             : "Sin detalles de facturación";
 
+        $lodging = ($this->roomType && $this->view && $this->floor)
+            ? "Habitación: $this->roomType, Vista: $this->view, Piso: $this->floor"
+            : "Sin preferencias de hospedaje";
+
         $membership = ($this->membershipType && $this->membershipBenefits)
             ? "Tipo: $this->membershipType, Beneficios: $this->membershipBenefits"
             : "Sin membresía";
@@ -31,18 +38,10 @@ class Cliente {
             'email' => $this->email,
             'contact' => $contactStr,
             'billing' => $billing,
+            'lodging' => $lodging,
             'membership' => $membership
         ];
     }
-}
-
-// Interfaz Builder
-interface ClientBuilder {
-    public function setPersonalInfo(string $name, string $email): void;
-    public function setContactPreferences(?string $phone, bool $sms, bool $emailNotifications): void;
-    public function setBillingDetails(?string $billingAddress, ?string $paymentMethod): void;
-    public function setMembership(?string $membershipType): void;
-    public function getClient(): Cliente;
 }
 
 // Builder para cliente estándar
@@ -67,6 +66,12 @@ class ConcreteClientBuilder implements ClientBuilder {
     public function setBillingDetails(?string $billingAddress, ?string $paymentMethod): void {
         $this->client->billingAddress = $billingAddress;
         $this->client->paymentMethod = $paymentMethod;
+    }
+
+    public function setLodgingPreferences(?string $roomType, ?string $view, ?string $floor): void {
+        $this->client->roomType = $roomType;
+        $this->client->view = $view;
+        $this->client->floor = $floor;
     }
 
     public function setMembership(?string $membershipType): void {
@@ -100,8 +105,14 @@ class PremiumClientBuilder implements ClientBuilder {
     }
 
     public function setBillingDetails(?string $billingAddress, ?string $paymentMethod): void {
-        $this->client->billingAddress = $billingAddress ? $billingAddress : "Dirección prioritaria para clientes premium";
-        $this->client->paymentMethod = $paymentMethod ? $paymentMethod : "Tarjeta (prioridad premium)";
+        $this->client->billingAddress = $billingAddress ?: "Dirección prioritaria para clientes premium";
+        $this->client->paymentMethod = $paymentMethod ?: "Tarjeta (prioridad premium)";
+    }
+
+    public function setLodgingPreferences(?string $roomType, ?string $view, ?string $floor): void {
+        $this->client->roomType = $roomType ?: "Suite";
+        $this->client->view = $view ?: "Mar";
+        $this->client->floor = $floor ?: "Alto";
     }
 
     public function setMembership(?string $membershipType): void {
@@ -142,7 +153,14 @@ class ClientDirector {
             $this->builder->setBillingDetails(null, null);
         }
 
-        // Paso 4: Membresía (solo para premium)
+        // Paso 4: Preferencias de hospedaje (opcional)
+        if ($data['lodging'] && !empty($data['roomType']) && !empty($data['view']) && !empty($data['floor'])) {
+            $this->builder->setLodgingPreferences($data['roomType'], $data['view'], $data['floor']);
+        } else {
+            $this->builder->setLodgingPreferences(null, null, null);
+        }
+
+        // Paso 5: Membresía (solo para premium)
         $this->builder->setMembership($data['membershipType'] ?? null);
 
         return $this->builder->getClient();

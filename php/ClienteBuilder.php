@@ -1,49 +1,73 @@
 <?php
 
-require_once '../clases/builder.php';
+require_once '../clases/ClientBuilder.php';
+require_once '../clases/Cliente.php';
 session_start();
-CONST REGISTRARSP = 99;
-CONST REGISTRAR = 100;
-CONST CONSULTAR = 101;
+CONST REGISTRAR_CLIENTE = 101;
 
 $accion = isset($_POST['accion']) ? $_POST['accion'] : null;
 $datos = isset($_POST['datos']) ? $_POST['datos'] : null;
-$hayPaquete = isset($_POST['plantilla']) ? true : false;
-try {
-    if (empty($_POST['name']) || empty($_POST['email'])) {
-        throw new Exception('Nombre y correo son obligatorios');
-    }
 
-    $data = [
-        'clientType' => $_POST['clientType'] ?? 'estandar',
-        'name' => $_POST['name'],
-        'email' => $_POST['email'],
-        'phone' => $_POST['phone'] ?? '',
-        'sms' => isset($_POST['sms']) && $_POST['sms'] === 'true',
-        'emailNotifications' => isset($_POST['emailNotifications']) && $_POST['emailNotifications'] === 'true',
-        'billing' => isset($_POST['billing']) && $_POST['billing'] === 'true',
-        'billingAddress' => $_POST['billingAddress'] ?? '',
-        'paymentMethod' => $_POST['paymentMethod'] ?? '',
-        'membershipType' => $_POST['membershipType'] ?? ''
-    ];
+switch ($accion) {
+    case REGISTRAR_CLIENTE:
+        $datos = json_decode($datos);
+        $clientType = $datos->clientType ?? 'estandar';
+        $name = $datos->name;
+        $email = $datos->email;
+        $phone = $datos->phone ?? '';
+        $sms = isset($datos->sms) && $datos->sms;
+        $emailNotifications = isset($datos->emailNotifications) && $datos->emailNotifications;
+        $billing = isset($datos->billing) && $datos->billing;
+        $billingAddress = $datos->billingAddress ?? '';
+        $paymentMethod = $datos->paymentMethod ?? '';
+        $lodging = isset($datos->lodging) && $datos->lodging;
+        $roomType = $datos->roomType ?? '';
+        $view = $datos->view ?? '';
+        $floor = $datos->floor ?? '';
+        $membershipType = $datos->membershipType ?? '';
 
-    // Seleccionar el builder según el tipo de cliente
-    $builder = $data['clientType'] === 'premium' ? new PremiumClientBuilder() : new ConcreteClientBuilder();
-    $director = new ClientDirector($builder);
-    $client = $director->buildClient($data);
+        $data = [
+            'clientType' => $clientType,
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'sms' => $sms,
+            'emailNotifications' => $emailNotifications,
+            'billing' => $billing,
+            'billingAddress' => $billingAddress,
+            'paymentMethod' => $paymentMethod,
+            'lodging' => $lodging,
+            'roomType' => $roomType,
+            'view' => $view,
+            'floor' => $floor,
+            'membershipType' => $membershipType
+        ];
 
-    echo json_encode([
-        'success' => true,
-        'name' => $client->toArray()['name'],
-        'email' => $client->toArray()['email'],
-        'contact' => $client->toArray()['contact'],
-        'billing' => $client->toArray()['billing'],
-        'membership' => $client->toArray()['membership']
-    ]);
-} catch (Exception $e) {
-    echo json_encode([
-        'success' => false,
-        'message' => $e->getMessage()
-    ]);
+        // Seleccionar el builder según el tipo de cliente
+        $builder = $data['clientType'] === 'premium' ? new PremiumClientBuilder() : new ConcreteClientBuilder();
+        $director = new ClientDirector($builder);
+        $client = $director->buildClient($data);
+
+        $obj = new stdClass();
+        $obj->nombre = $client->name;
+        $obj->correo = $client->email;
+        $obj->celular = !isset($client->phone) ? "" : $client->phone;
+        $obj->enviarsms = $client->sms;
+        $obj->enviaremail = $client->emailNotifications;
+        $obj->direcionFacturacion = !isset($client->billingAddress) ? "" : $client->billingAddress;
+        $obj->metodoPago = !isset($client->paymentMethod) ? "" : $client->paymentMethod;
+        $obj->tipoHabitacion = !isset($client->roomType) ? "" : $client->roomType;
+        $obj->vista = !isset($client->view) ? "" : $client->view;
+        $obj->piso = !isset($client->floor) ? "" : $client->floor;
+        $obj->menbresia = !isset($client->membershipType) ? "" : $client->membershipType;
+        $obj->menbresiaBeneficios = !isset($client->membershipBenefits) ? "" : $client->membershipBenefits;
+
+        echo json_encode(['success' => true, 'data' => $obj]);
+
+        break;
+
+    default:
+        echo "Acción no válida.";
+        break;
 }
 ?>

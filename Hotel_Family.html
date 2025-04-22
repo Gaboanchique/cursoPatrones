@@ -1,0 +1,70 @@
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Holiday Crown | Best hotel in Dubai</title>
+
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="assets/uniform/css/uniform.default.min.css" />
+        <link rel="stylesheet" href="assets/wow/animate.css" />
+        <link rel="stylesheet" href="assets/gallery/blueimp-gallery.min.css">
+        <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+        <link rel="icon" href="images/favicon.png" type="image/x-icon">
+        <link rel="stylesheet" href="assets/style.css">
+        <link rel="stylesheet" href="assets/daterangepicker-master/daterangepicker.css">
+
+
+        <script src="assets/jquery.js"></script>
+        <script src="assets/wow/wow.min.js"></script>
+        <script src="assets/uniform/js/jquery.uniform.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+        <script src="assets/mobile/touchSwipe.min.js"></script>
+        <script src="assets/respond/respond.js"></script>
+        <script src="assets/gallery/jquery.blueimp-gallery.min.js"></script>
+        <script src="assets/script.js"></script>
+        <script src="js/utilidadesjQuery.js"></script>
+        <script type="text/javascript" src="assets/daterangepicker-master/moment.min.js"></script>
+        <script type="text/javascript" src="assets/daterangepicker-master/daterangepicker.js"></script>
+        <script type="text/javascript" src="js/funciones.js"></script>
+        <script type="text/javascript" src="js/Hotel_Family.js"></script>
+    </head>
+    <body>
+        <div id="header"> </div>
+        <div class="container mt-5">
+            <h2>Family Hotel</h2>
+            <label for="hotelType">Selecciona el tipo de hotel:</label>
+            <select id="hotelType">
+                <option value="0">-- Seleccione --</option>
+                <option value="1">Económico</option>
+                <option value="2">Lujo</option>
+            </select>
+            <button class="btn btn-primary mb-3" id="obtenerDetalles">
+                Obtener Detalles
+            </button>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Habitacion</th>
+                        <th>Servicios</th>
+                        <th>Tipo Pago</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaRegistros">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal -->
+
+        <div class="spinner spinner-container hidden">
+            <img src="images/spinner.gif" alt="Loading...">
+            <div id="progresoDescarga" class="progreso-container hidden">
+            </div>
+        </div>
+        <div id="footer"> </div>
+    </body>
+</html>
